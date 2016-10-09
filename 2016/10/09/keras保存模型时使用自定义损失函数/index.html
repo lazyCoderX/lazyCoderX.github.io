@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="keras,深度学习,小问题解决方案," />
 
 
 
@@ -84,15 +84,16 @@
 
 
 
-<meta name="description" content="stay hungry, stay lazy ...">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="在使用keras时，我们可以通过    save函数将模型保存到hdf5文件中， 官方代码：12345678from keras.models import load_modelmodel.save(&apos;my_model.h5&apos;)  # creates a HDF5 file &apos;my_model.h5&apos;del model  # deletes the existing model# returns">
+<meta property="og:type" content="article">
+<meta property="og:title" content="keras保存模型时使用自定义损失函数">
+<meta property="og:url" content="http://yoursite.com/2016/10/09/keras保存模型时使用自定义损失函数/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="stay hungry, stay lazy ...">
+<meta property="og:description" content="在使用keras时，我们可以通过    save函数将模型保存到hdf5文件中， 官方代码：12345678from keras.models import load_modelmodel.save(&apos;my_model.h5&apos;)  # creates a HDF5 file &apos;my_model.h5&apos;del model  # deletes the existing model# returns">
+<meta property="og:updated_time" content="2016-10-08T23:41:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="stay hungry, stay lazy ...">
+<meta name="twitter:title" content="keras保存模型时使用自定义损失函数">
+<meta name="twitter:description" content="在使用keras时，我们可以通过    save函数将模型保存到hdf5文件中， 官方代码：12345678from keras.models import load_modelmodel.save(&apos;my_model.h5&apos;)  # creates a HDF5 file &apos;my_model.h5&apos;del model  # deletes the existing model# returns">
 
 
 
@@ -113,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/10/09/keras保存模型时使用自定义损失函数/"/>
 
-  <title> Hexo </title>
+  <title> keras保存模型时使用自定义损失函数 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -136,9 +137,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -225,9 +224,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -247,10 +246,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/10/09/keras保存模型时使用自定义损失函数/" itemprop="url">
-                  keras保存模型时使用自定义损失函数
-                </a>
+                keras保存模型时使用自定义损失函数
               
             
           </h1>
@@ -325,175 +321,84 @@
       
 
       
-        
-          
-            <p>在使用keras时，我们可以通过    save函数将模型保存到hdf5文件中， 官方代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> load_model</div><div class="line"></div><div class="line">model.save(<span class="string">'my_model.h5'</span>)  <span class="comment"># creates a HDF5 file 'my_model.h5'</span></div><div class="line"><span class="keyword">del</span> model  <span class="comment"># deletes the existing model</span></div><div class="line"></div><div class="line"><span class="comment"># returns a compiled model</span></div><div class="line"><span class="comment"># identical to the previous one</span></div><div class="line">model = load_model(<span class="string">'my_model.h5'</span>)</div></pre></td></tr></table></figure></p>
+        <p>在使用keras时，我们可以通过    save函数将模型保存到hdf5文件中， 官方代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> load_model</div><div class="line"></div><div class="line">model.save(<span class="string">'my_model.h5'</span>)  <span class="comment"># creates a HDF5 file 'my_model.h5'</span></div><div class="line"><span class="keyword">del</span> model  <span class="comment"># deletes the existing model</span></div><div class="line"></div><div class="line"><span class="comment"># returns a compiled model</span></div><div class="line"><span class="comment"># identical to the previous one</span></div><div class="line">model = load_model(<span class="string">'my_model.h5'</span>)</div></pre></td></tr></table></figure></p>
 <p>但是如果使用了自定义的loss函数， 在保存model之后再读取模型就会报错， 如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">cosh</span><span class="params">(y_true, y_pred)</span>:</span></div><div class="line">    a0 = T.cosh(y_pred - y_true)</div><div class="line">    a1 = a0.mean(axis=<span class="number">-1</span>)</div><div class="line">    <span class="keyword">return</span> a1</div><div class="line"></div><div class="line">model.compile(loss=cosh)</div><div class="line">model.save(<span class="string">'my_model.h5'</span>) <span class="comment"># success</span></div><div class="line">model = load_model(<span class="string">'my_model.h5'</span>) <span class="comment"># error</span></div><div class="line"></div><div class="line"><span class="comment"># error info ----------------------</span></div><div class="line">traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">  File <span class="string">"G:\Anaconda\lib\site-packages\keras\models.py"</span>, line <span class="number">155</span>, <span class="keyword">in</span> load_model</div><div class="line">    sample_weight_mode=sample_weight_mode)</div><div class="line">  File <span class="string">"G:\Anaconda\lib\site-packages\keras\engine\training.py"</span>, line <span class="number">537</span>, <span class="keyword">in</span> compile</div><div class="line">    loss_function = objectives.get(loss)</div><div class="line">  File <span class="string">"G:\Anaconda\lib\site-packages\keras\objectives.py"</span>, line <span class="number">77</span>, <span class="keyword">in</span> get</div><div class="line">    <span class="keyword">return</span> get_from_module(identifier, globals(), <span class="string">'objective'</span>)</div><div class="line">  File <span class="string">"G:\Anaconda\lib\site-packages\keras\utils\generic_utils.py"</span>, line <span class="number">14</span>, <span class="keyword">in</span> get_from_module</div><div class="line">    str(identifier))</div><div class="line">Exception: Invalid objective: Cosh</div></pre></td></tr></table></figure></p>
 <p>官方文档没有写明解决方案，但是通过查看源代码可以发现load_model函数提供了一个custom_objects参数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_model</span><span class="params">(filepath, custom_objects=&#123;&#125;)</span>:</span></div><div class="line">	...</div></pre></td></tr></table></figure></p>
 <p>我们可以通过将loss函数以dict的形式传入解决这个问题：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">model = load_model(<span class="string">'my_model.h5'</span>, &#123;<span class="string">'cosh'</span>:cosh&#125;) <span class="comment"># success</span></div></pre></td></tr></table></figure></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div></div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/WechatIMG2.png" alt="木雕啄木鸟 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
     </div>
+  </div>
 
-    <div>
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/05/mac提示-无线网络似乎已被侵入-并将被停用大约一分钟-解决方案/" itemprop="url">
-                  mac提示 无线网络似乎已被侵入,并将被停用大约一分钟 解决方案
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-05T10:46:26+08:00" content="2016-09-05">
-              2016-09-05
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Mac/" itemprop="url" rel="index">
-                    <span itemprop="name">Mac</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
+            <a href="/tags/keras/" rel="tag">#keras</a>
           
-
+            <a href="/tags/深度学习/" rel="tag">#深度学习</a>
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/05/mac提示-无线网络似乎已被侵入-并将被停用大约一分钟-解决方案/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/05/mac提示-无线网络似乎已被侵入-并将被停用大约一分钟-解决方案/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/2016/09/05/mac提示-无线网络似乎已被侵入-并将被停用大约一分钟-解决方案/" class="leancloud_visitors" data-flag-title="mac提示 无线网络似乎已被侵入,并将被停用大约一分钟 解决方案">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
+            <a href="/tags/小问题解决方案/" rel="tag">#小问题解决方案</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>最近几天macbook隔一会就提示”无线网络似乎已被侵入， 并将被停用大约一分钟”然后就会断网大约1分钟，即使隐藏WIFI的SSID，修改密码也没有用。</p>
-<p><strong>解决方案</strong>：<br>这是因为wifi的加密方式中选择了TKIP，比如我的选择了”TKIP+AES“， 只要换成用AES就好。</p>
-<p><strong>具体原因</strong>：<br>TKIP会使用MIC(Message Intergrity Check, 消息完整性检查)来检测数据包是否是伪造的。在收到第一个受损的数据包时，使用TKIP的接入点通常会传输一个错误报告。如果在60秒内收到了第二个受损的数据包，接入点通常会再停止监听一分钟，然后再为WLAN分配密钥，要求所有的客户端开始使用一个新的“密钥对”来生成MIC密钥和每个数据包的加密密钥。</p>
-<p>发生这种情况虽然有可能确实是由于受到了黑客攻击, 但也很有可能只是因为数据包在传输期间由于附近的路由器干扰导致数据包损坏。</p>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/05/mac提示-无线网络似乎已被侵入-并将被停用大约一分钟-解决方案/" rel="next" title="mac提示 无线网络似乎已被侵入,并将被停用大约一分钟 解决方案">
+                <i class="fa fa-chevron-left"></i> mac提示 无线网络似乎已被侵入,并将被停用大约一分钟 解决方案
+              </a>
+            
+          </div>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -501,6 +406,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/09/keras保存模型时使用自定义损失函数/"
+           data-title="keras保存模型时使用自定义损失函数" data-url="http://yoursite.com/2016/10/09/keras保存模型时使用自定义损失函数/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -520,8 +433,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -571,6 +493,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -674,6 +607,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
